@@ -1,9 +1,7 @@
 package com.jordimorera.mytodolistapp.exceptions;
 
-import lombok.Data;
 import org.springframework.http.HttpStatus;
 
-@Data
 public class ToDoExceptions extends RuntimeException {
 
     private String message;
@@ -13,5 +11,13 @@ public class ToDoExceptions extends RuntimeException {
         super(message);
         this.message = message;
         this.httpStatus = httpStatus;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public HttpStatus getHttpStatus() {
+        return httpStatus;
     }
 }

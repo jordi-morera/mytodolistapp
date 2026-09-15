@@ -7,7 +7,7 @@ import com.jordimorera.mytodolistapp.persistence.entity.Task;
 import com.jordimorera.mytodolistapp.persistence.entity.TaskStatus;
 import com.jordimorera.mytodolistapp.persistence.repository.TaskRepository;
 import com.jordimorera.mytodolistapp.service.dto.TaskInDTO;
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 

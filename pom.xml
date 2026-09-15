@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.5.8</version>
+        <version>4.0.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.jordimorera</groupId>
@@ -14,7 +14,8 @@
     <name>mytodolistapp</name>
     <description>mytodolistapp</description>
     <properties>
-        <java.version>11</java.version>
+        <java.version>25</java.version>
+        <lombok.version>1.18.48</lombok.version>
     </properties>
     <dependencies>
         <dependency>
