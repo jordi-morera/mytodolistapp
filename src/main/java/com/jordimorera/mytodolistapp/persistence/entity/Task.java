@@ -1,6 +1,7 @@
 package com.jordimorera.mytodolistapp.persistence.entity;
 
 import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -14,6 +15,7 @@ public class Task {
     private LocalDateTime createdDate;
     private LocalDateTime eta;
     private boolean finished;
+    @Enumerated(EnumType.STRING)
     private TaskStatus taskStatus;
 
     public Long getId() {
