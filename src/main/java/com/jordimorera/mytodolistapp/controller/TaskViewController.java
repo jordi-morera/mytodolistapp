@@ -19,9 +19,4 @@ public class TaskViewController {
         model.addAttribute("tasks", taskService.findAll());
         return "tasks";
     }
-
-    @GetMapping("/new")
-    public String newTask() {
-        return "create_task";
-    }
 }

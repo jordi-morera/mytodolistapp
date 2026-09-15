@@ -30,6 +30,15 @@ public class TaskService {
         return this.repository.save(task);
     }
 
+    public Task updateTask(Long id, TaskInDTO taskInDTO) {
+        Task task = this.repository.findById(id)
+                .orElseThrow(() -> new ToDoExceptions("Task not found", HttpStatus.NOT_FOUND));
+        task.setTitle(taskInDTO.getTitle());
+        task.setDescription(taskInDTO.getDescription());
+        task.setEta(taskInDTO.getEta());
+        return this.repository.save(task);
+    }
+
     public List<Task> findAll() {
         return this.repository.findAll();
     }
