@@ -7,35 +7,73 @@
     <link rel="stylesheet" type="text/css" th:href="@{/styles.css}"/>
 </head>
 <body>
-<h1>Task List</h1>
-<a href="#" th:href="@{/new}">Create Task</a>
-<table>
-    <tr>
-        <th>ID</th>
-        <th>Title</th>
-        <th>Description</th>
-        <th>Created Date</th>
-        <th>ETA</th>
-        <th>Finished</th>
-        <th>Task Status</th>
-        <th>Actions</th>
-    </tr>
-    <tr th:each="task : ${tasks}">
-        <td th:text="${task.id}"></td>
-        <td th:text="${task.title}"></td>
-        <td th:text="${task.description}"></td>
-        <td th:text="${task.createdDate}"></td>
-        <td th:text="${task.eta}"></td>
-        <td th:text="${task.finished}"></td>
-        <td th:text="${task.taskStatus}"></td>
-        <td>
-            <a class="mark-finished" th:if="${!task.finished}" th:attr="data-task-id=${task.id}"
-               th:href="@{'/tasks/mark_as_finished/' + ${task.id}}">Mark as Finished</a>
-            <a class="delete-task" th:attr="data-task-id=${task.id}"
-               th:href="@{'/tasks/' + ${task.id}}">Delete</a>
-        </td>
-    </tr>
-</table>
+<div class="page">
+    <div class="page-header">
+        <h1>My To-Do List</h1>
+        <button type="button" id="new-task-btn" class="btn btn-primary">+ New Task</button>
+    </div>
+
+    <div th:if="${#lists.isEmpty(tasks)}" class="empty-state">
+        No tasks yet. Click "New Task" to add your first one.
+    </div>
+
+    <div class="task-list" th:unless="${#lists.isEmpty(tasks)}">
+        <div class="task-card" th:each="task : ${tasks}" th:classappend="${task.finished} ? 'finished' : ''"
+             th:attr="data-task-id=${task.id}">
+            <div class="task-main">
+                <div class="task-title-row">
+                    <span class="task-title" th:text="${task.title}"></span>
+                    <span class="badge badge-done" th:if="${task.finished}">Done</span>
+                    <span class="badge badge-late" th:if="${!task.finished and task.taskStatus.name() == 'LATE'}">Late</span>
+                    <span class="badge badge-on-time" th:if="${!task.finished and task.taskStatus.name() == 'ON_TIME'}">On time</span>
+                </div>
+                <p class="task-description" th:if="${task.description}" th:text="${task.description}"></p>
+                <div class="task-meta">
+                    <span th:if="${task.eta}" th:text="'Due: ' + ${#temporals.format(task.eta, 'dd MMM yyyy, HH:mm')}"></span>
+                    <span th:text="'Created: ' + ${#temporals.format(task.createdDate, 'dd MMM yyyy, HH:mm')}"></span>
+                </div>
+            </div>
+            <div class="task-actions">
+                <button type="button" class="btn btn-icon edit-task"
+                        th:attr="data-task-id=${task.id},data-task-title=${task.title},data-task-description=${task.description},data-task-eta=${#temporals.format(task.eta, 'yyyy-MM-dd''T''HH:mm')}">
+                    Edit
+                </button>
+                <button type="button" class="btn btn-icon mark-finished" th:if="${!task.finished}"
+                        th:attr="data-task-id=${task.id}">
+                    Finish
+                </button>
+                <button type="button" class="btn btn-danger delete-task" th:attr="data-task-id=${task.id}">
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<dialog id="task-dialog">
+    <form id="task-form" class="modal-content">
+        <h2 id="task-dialog-title">New Task</h2>
+        <input type="hidden" id="task-id" name="id"/>
+        <div class="form-field">
+            <label for="title">Title</label>
+            <input type="text" name="title" id="title" required/>
+        </div>
+        <div class="form-field">
+            <label for="description">Description</label>
+            <textarea name="description" id="description"></textarea>
+        </div>
+        <div class="form-field">
+            <label for="eta">ETA</label>
+            <input type="datetime-local" name="eta" id="eta" required/>
+        </div>
+        <p class="error-message" id="task-form-error"></p>
+        <div class="modal-actions">
+            <button type="button" class="btn btn-secondary" id="cancel-task-btn">Cancel</button>
+            <button type="submit" class="btn btn-primary" id="save-task-btn">Save</button>
+        </div>
+    </form>
+</dialog>
+
 <script th:src="@{/app.js}"></script>
 </body>
 </html>

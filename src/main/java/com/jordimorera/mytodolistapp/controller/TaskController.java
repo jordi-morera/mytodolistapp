@@ -25,6 +25,11 @@ public class TaskController {
         return this.taskService.createTask(taskInDTO);
     }
 
+    @PutMapping("/{id}")
+    public Task updateTask(@PathVariable("id") Long id, @RequestBody TaskInDTO taskInDTO) {
+        return this.taskService.updateTask(id, taskInDTO);
+    }
+
     @GetMapping
     public List<Task> findAll(){
         return this.taskService.findAll();
